@@ -4,6 +4,8 @@ from PIL import Image, ImageTk
 from tkinter import messagebox
 from sidebar import create_sidebar  # Import the create_sidebar function
 import subprocess
+from commmon_components import logo_name
+
 def viewButton():
     root.destroy()
     subprocess.run(["python", "Card.py"])
@@ -58,9 +60,7 @@ def newPost():
 
 
 root = Tk()
-root.title("Volunteer Page")
-
-root.title("Animal Connect")
+logo_name(root)
 root.geometry("800x600+100+100")
 
 # Use the create_sidebar function to create the sidebar

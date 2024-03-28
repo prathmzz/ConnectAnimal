@@ -2,6 +2,7 @@ from tkinter import *
 from PIL import ImageTk
 from tkinter import messagebox
 import pymysql
+from commmon_components import logo_name
 
 def clear():
     emailEntry.delete(0, END)
@@ -59,6 +60,7 @@ def open_login_page():
 
 #GUI part
 signup_window = Tk()
+logo_name(signup_window)
 signup_window.geometry('990x660+50+50')
 signup_window.title('Signup Page')
 signup_window.resizable(0,0)

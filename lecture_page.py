@@ -3,6 +3,8 @@ import tkinter as tk
 from PIL import Image, ImageTk
 from sidebar import create_sidebar
 import subprocess
+from commmon_components import logo_name
+
 def open_lecture_page():
     print("Opening Lecture Page...") 
     root.destroy()
@@ -25,7 +27,7 @@ def open_Rescue():
     subprocess.run(["python", "Rescue.py"])
 
 root = Tk()
-root.title("Animal Connect")
+logo_name(root)
 root.geometry("800x600+100+100")
 
 # Call create_sidebar with the required arguments

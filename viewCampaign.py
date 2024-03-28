@@ -3,6 +3,8 @@ from PIL import Image, ImageTk
 from tkinter import messagebox
 import webbrowser
 import subprocess
+from commmon_components import logo_name
+
 
 
 class Campaign_Details:
@@ -79,7 +81,7 @@ append_campaign(campaign1, campaign_list)
 append_campaign(campaign2, campaign_list)
 
 root = Tk()
-root.title("Animal Connect")
+logo_name(root)
 root.geometry("800x600+100+100")
 
 # Create the top bar

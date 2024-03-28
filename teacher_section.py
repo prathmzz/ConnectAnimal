@@ -2,6 +2,8 @@ from tkinter import *
 import tkinter as tk
 from sidebar import create_sidebar  # Import the create_sidebar function
 import subprocess
+from commmon_components import logo_name
+
 def viewButton():
     root.destroy()
     subprocess.run(["python", "Card.py"])
@@ -25,8 +27,9 @@ def open_Rescue():
 def open_post_adoption_page():
      root.destroy()
      subprocess.run(["python", "PostAdoption.py"])
+
 root = Tk()
-root.title("Animal Connect")
+logo_name(root)
 root.geometry("800x600+100+100")
 
 # Use the create_sidebar function to create the sidebar

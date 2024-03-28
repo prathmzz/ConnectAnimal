@@ -8,6 +8,8 @@ import tkinter as tk
 from PIL import Image, ImageTk
 from sidebar import create_sidebar
 import subprocess
+from commmon_components import logo_name
+
 def open_lecture_page():
     print("Opening Lecture Page...") 
     root.destroy()
@@ -69,7 +71,7 @@ def fetch_user_location():
 
 
 root = Tk()
-root.title("Animal Connect")
+logo_name(root)
 root.geometry("800x600+100+100")
 
 # Use the create_sidebar function to create the sidebar

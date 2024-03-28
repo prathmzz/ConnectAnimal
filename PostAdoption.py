@@ -4,6 +4,8 @@ from tkinter import *
 from sidebar import create_sidebar  # Import the create_sidebar function
 import subprocess
 import tkinter as tk
+from commmon_components import logo_name
+
 def open_lecture_page():
     root.destroy()
     subprocess.run(["python", "lecture_page.py"])
@@ -28,7 +30,7 @@ def add_card(name, address, phone):
     tk.Label(card_frame, text="Phone: " + phone, bg="white").pack(anchor=tk.W)
 
 root = tk.Tk()
-root.title("Animal Connect")
+logo_name(root)
 root.geometry("800x600+100+100")
 topbar, sidebar, buttons = create_sidebar(root, open_lecture_page, open_Volunteer_page, open_teacher_section, open_Rescue)
 

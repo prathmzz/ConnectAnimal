@@ -3,6 +3,8 @@ from PIL import ImageTk
 from tkinter import messagebox
 import pymysql
 import subprocess
+from commmon_components import logo_name
+
 
 # Functionality Part
 def login_user():
@@ -39,6 +41,7 @@ def open_signup_page():
 
 # GUI part
 login_window = Tk()
+logo_name(login_window)
 login_window.geometry('990x660+50+50')
 login_window.resizable(0, 0)
 

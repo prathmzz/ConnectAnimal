@@ -2,6 +2,8 @@ from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import messagebox
 from sidebar import create_sidebar
+from commmon_components import logo_name
+
 
 import subprocess
 import tkinter as tk
@@ -26,7 +28,7 @@ def open_view_campaign():
     subprocess.run(["python", "viewCampaign.py"])
 
 root = Tk()
-root.title("Animal Connect")
+logo_name(root)
 root.geometry("800x600+100+100")
 
 topbar, sidebar, buttons = create_sidebar(root, open_lecture_page, open_Volunteer_page, open_teacher_section, open_Rescue)

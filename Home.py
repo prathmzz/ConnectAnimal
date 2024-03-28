@@ -2,9 +2,11 @@ from tkinter import *
 import tkinter as tk
 from sidebar import create_sidebar  # Import the create_sidebar function
 import subprocess
+from commmon_components import logo_name
+
 
 def open_lecture_page():
-    print("Opening Lecture Page...") 
+    print("Opening Lecture Page...")
     root.destroy()
     subprocess.run(["python", "lecture_page.py"])
 def open_Volunteer_page():
@@ -19,10 +21,10 @@ def open_Rescue():
     print("Opening Rescue Page...")
     root.destroy()
     subprocess.run(["python", "Rescue.py"])
-    root = Tk()
+
 
 root = Tk()
-root.title("Volunteer Page")
+logo_name(root)
 root.geometry("800x600+100+100")
 
 # Use the create_sidebar function to create the sidebar

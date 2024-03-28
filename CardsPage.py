@@ -4,6 +4,8 @@ from tkinter import *
 from tkinter import filedialog
 from PIL import Image, ImageTk
 from sidebar import create_sidebar  # Import the create_sidebar function
+from commmon_components import logo_name
+
 def open_lecture_page():
     print("Opening Lecture Page...")
 
@@ -107,7 +109,7 @@ def upload_image():
         switch_to_image_page()
 
 root = Tk()
-root.title("Animal Connect")
+logo_name(root)
 root.geometry("800x600+100+100")
 topbar,sidebar, buttons = create_sidebar(root,open_Volunteer_page,open_lecture_page,open_Rescue,open_teacher_section)
 
