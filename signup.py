@@ -21,7 +21,7 @@ def connect_database():
         messagebox.showerror('Error', 'Please accept terms and condition')
     else:
         try:
-            con = pymysql.connect(host='localhost', user='root', password='Palve@08')
+            con = pymysql.connect(host='localhost', user='root', password='password')
             mycursor = con.cursor()
 
         except pymysql.Error as e:
@@ -41,7 +41,7 @@ def connect_database():
         mycursor.execute(query,(usernameEntry.get()))
 
         row = mycursor.fetchone()
-        if row != NONE:
+        if row is not None:
             messagebox.showerror('Error', f'Username already exists')
 
         else:

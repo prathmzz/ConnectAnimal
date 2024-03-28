@@ -12,7 +12,7 @@ def login_user():
         messagebox.showerror('Error', 'All fields are required')
     else:
         try:
-            con = pymysql.connect(host='localhost', user='root', password='Palve@08', database='userdata')
+            con = pymysql.connect(host='localhost', user='root', password='password', database='userdata')
             mycursor = con.cursor()
 
             query = 'select * from data where username=%s and password=%s'
