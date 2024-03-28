@@ -21,7 +21,7 @@ def connect_database():
         messagebox.showerror('Error', 'Please accept terms and condition')
     else:
         try:
-            con = pymysql.connect(host='localhost', user='root', password='password')
+            con = pymysql.connect(host='localhost', user='root', password='Vedant@0110')
             mycursor = con.cursor()
 
         except pymysql.Error as e:
