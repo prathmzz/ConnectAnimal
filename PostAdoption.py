@@ -5,7 +5,10 @@ from sidebar import create_sidebar  # Import the create_sidebar function
 import subprocess
 import tkinter as tk
 from commmon_components import logo_name
-
+from PIL import Image, ImageTk
+from io import BytesIO
+from tkinter import filedialog
+from tkinter import messagebox
 def open_lecture_page():
     root.destroy()
     subprocess.run(["python", "lecture_page.py"])
@@ -18,16 +21,40 @@ def open_teacher_section():
 def open_Rescue():
     root.destroy()
 
-def add_card(name, address, phone):
+def select_image():
+    file_path = filedialog.askopenfilename(filetypes=[("Image files", "*.png;*.jpg;*.jpeg")])
+    if file_path:
+        with open(file_path, "rb") as file:
+            image_data = file.read()
+        insert_image_to_database(image_data)
+            
+def insert_image_to_database(image_data):
+    conn = sqlite3.connect("image_data.db")
+    cursor = conn.cursor()
+    cursor.execute("CREATE TABLE IF NOT EXISTS Images (id INTEGER PRIMARY KEY, image BLOB)")
+    cursor.execute("INSERT INTO Images (image) VALUES (?)", (image_data,))
+    conn.commit()
+    conn.close()    
+
+def display_image_from_database(image_data):
+    image = Image.open(BytesIO(image_data))
+    photo = ImageTk.PhotoImage(image)
+    label.config(image=photo)
+    label.image = photo 
+
+def add_card(name, address, phone, image_data):
     # Calculate the number of existing cards to determine the row and column for the new card
     num_cards = len(cards_frame.grid_slaves())
     # Create a new card frame
     card_frame = tk.Frame(cards_frame, bg="white", bd=2, relief=tk.RIDGE)
     card_frame.grid(row=num_cards // 3, column=num_cards % 3, padx=5, pady=5)  # Side by side, 3 cards per row
     # Display name, address, and phone number below the image
+    display_image_from_database(image_data)  # Call the function to display the image
     tk.Label(card_frame, text="Name: " + name, bg="white").pack(anchor=tk.W)
     tk.Label(card_frame, text="Address: " + address, bg="white").pack(anchor=tk.W)
     tk.Label(card_frame, text="Phone: " + phone, bg="white").pack(anchor=tk.W)
+
+image_data = None
 
 root = tk.Tk()
 logo_name(root)
@@ -49,8 +76,6 @@ def switch_to_card_page():
     switch_to_main_button = tk.Button(switch_to_main_frame, text="Switch to Main", command=switch_to_main_menu)
     switch_to_main_button.pack()
 
-
-
 def create_database():
     conn = sqlite3.connect("user_data.db")
     c = conn.cursor()
@@ -63,8 +88,7 @@ def create_database():
                 Name TEXT,
                 Address TEXT,
                 Phone TEXT
-                )''')
-    
+                )''')   
     conn.commit()
     conn.close()
 
@@ -96,9 +120,6 @@ def display_cards():
         else:
             print("Invalid data format in database row:", row)
 
-
-
-
 # Create database and table if they don't exist
 create_database()
 
@@ -127,28 +148,26 @@ phone_entry = tk.Entry(input_frame, width=50)
 phone_entry.grid(row=2, column=1, padx=5, pady=5)
 
 def post_button_command():
-    # Get the values entered in the input fields
     name = name_entry.get()
     address = address_entry.get()
-    phone = str(phone_entry.get())  # Ensure phone is a string
-
-    # Insert the user data into the database
-    insert_user_data(name, address, phone)
-
-    # Create a new card with the entered details
-    add_card(name, address, phone)
-
-    # Switch to the card page to display the newly added card
-    switch_to_card_page()
-
+    phone = str(phone_entry.get())
+    if image_data:
+        insert_user_data(name, address, phone)
+        add_card(name, address, phone, image_data) 
+        switch_to_card_page()
+    else:
+        messagebox.showerror("Error", "Please select an image first.")
 
 post_button = tk.Button(input_frame, text="Post", command=post_button_command)
 post_button.grid(row=3, columnspan=2, pady=10)
+# Create a button to select an image
+select_button = tk.Button(root, text="Select Image", command=select_image)
+select_button.pack(pady=10)
 
-
+# Create a label to display the selected image
+label = tk.Label(root)
+label.pack()
 # Frame to hold cards
 cards_frame = tk.Frame(root)
-
-
-
 root.mainloop()
+logo_name
