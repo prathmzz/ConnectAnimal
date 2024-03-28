@@ -33,6 +33,24 @@ def login_user():
         except pymysql.Error as e:
             messagebox.showerror('Error', f'Connection issue: {e}')
 
+def on_usernameEnter(event):
+    if usernameEntry.get()=="Username":
+        usernameEntry.delete(0,END)
+
+def on_passwordEnter(event):
+    if passwordEntry.get()=="Password":
+        passwordEntry.delete(0,END)
+
+def hide():
+    openeye.config(file='images/closeye.png')
+    passwordEntry.config(show='*')
+    eyeButton.config(command=show)
+
+def show():
+    openeye.config(file='images/openeye.png')
+    passwordEntry.config(show='')
+    eyeButton.config(command=hide)
+
 def open_main_page():
     print("Opening main page...")
     login_window.destroy()
@@ -59,14 +77,20 @@ heading.place(x=605, y=120)
 usernameEntry = Entry(login_window, width=25, font=('Microsoft Yahei UI Light', 11, 'bold'), bd=0, fg='firebrick1')
 usernameEntry.place(x=580, y=200)
 usernameEntry.insert(0, "Username")
+usernameEntry.bind('<FocusIn>', on_usernameEnter)
+
+Frame(login_window,height=2,width=250,bg='firebrick1').place(x=580,y=222)
 
 # Password Entry
 passwordEntry = Entry(login_window, width=25, font=('Microsoft Yahei UI Light', 11, 'bold'), bd=0, fg='firebrick1')
 passwordEntry.place(x=580, y=260)
 passwordEntry.insert(0, "Password")
+passwordEntry.bind('<FocusIn>', on_passwordEnter)
+
+Frame(login_window,height=2,width=250,bg='firebrick1').place(x=580,y=282)
 
 openeye = PhotoImage(file='images/openeye.png')
-eyeButton = Button(login_window, image=openeye, bd=0, bg='white', activebackground='white', cursor='hand2')
+eyeButton = Button(login_window,image=openeye,bd=0,bg='white',activebackground='white',cursor='hand2',command=hide)
 eyeButton.place(x=800, y=255)
 
 forgetButton = Button(login_window, text='Forget Password?', bd=0, bg='white', activebackground='white', cursor='hand2', fg='firebrick1', font=('Microsoft Yahei UI Light', 9, 'bold'))
