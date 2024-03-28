@@ -21,7 +21,7 @@ def connect_database():
         messagebox.showerror('Error', 'Please accept terms and condition')
     else:
         try:
-            con = pymysql.connect(host='localhost', user='root', password='password')
+            con = pymysql.connect(host='localhost', user='root', password='Palve@08')
             mycursor = con.cursor()
 
         except pymysql.Error as e:
@@ -62,7 +62,6 @@ def open_login_page():
 signup_window = Tk()
 logo_name(signup_window)
 signup_window.geometry('990x660+50+50')
-signup_window.title('Signup Page')
 signup_window.resizable(0,0)
 
 bgImage = ImageTk.PhotoImage(file='images/2.jpg')
