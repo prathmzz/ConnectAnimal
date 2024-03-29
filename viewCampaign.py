@@ -3,8 +3,8 @@ from PIL import Image, ImageTk
 from tkinter import messagebox
 import webbrowser
 import subprocess
+import mysql.connector
 from commmon_components import logo_name
-
 
 
 class Campaign_Details:
@@ -62,23 +62,43 @@ def whatsapp_clicked():
     webbrowser.open(whatsapp_url)
 
 
-def append_campaign(campaign, campaign_list):
-    campaign_list.append(campaign)
-    print("campaign added successfully")
+def fetch_campaigns_from_db():
+    try:
+        connection = mysql.connector.connect(host='localhost',
+                                             database='userdata',
+                                             user='root',
+                                             password='v2wcoder@mysql#123')  # Update with your MySQL password
+        cursor = connection.cursor()
+
+        # SQL query to select all campaigns from the database
+        sql_query = "SELECT * FROM campaigns"
+        cursor.execute(sql_query)
+
+        campaigns = []
+        for row in cursor.fetchall():
+            # Create Campaign_Details objects for each row retrieved from the database
+            campaign = Campaign_Details(row[1], row[2], row[4], row[3])
+            campaigns.append(campaign)
+
+        return campaigns
+
+    except mysql.connector.Error as error:
+        print(f"Failed to fetch campaigns: {error}")
+        return []
+
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+
 
 def open_Volunteer_page():
     root.destroy()
     subprocess.run(["python", "Volunteer_page.py"])
+
+
 # Initialize an empty list for campaigns
-campaign_list = []
-
-# Create some sample Campaign_Details objects
-campaign1 = Campaign_Details("vedant camp", "Location 1", "Description 1", "+918779784305")
-campaign2 = Campaign_Details("eesha camp", "Location 2", "Description 2", "9653360204")
-
-# Append campaigns to the list
-append_campaign(campaign1, campaign_list)
-append_campaign(campaign2, campaign_list)
+campaign_list = fetch_campaigns_from_db()
 
 root = Tk()
 logo_name(root)
@@ -134,7 +154,5 @@ frame.pack(fill=BOTH, expand=True)
 # Display each campaign from the list
 for index, campaign in enumerate(campaign_list):
     campaign.display_campaign(index)
-
-
 
 root.mainloop()
