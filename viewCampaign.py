@@ -17,7 +17,6 @@ class Campaign_Details:
     def display_campaign(self, row):
         campaign_frame = Frame(frame, bg='white', highlightbackground="black", highlightthickness=1)
         campaign_frame.grid(row=row, column=0, padx=20, pady=10, sticky="w")
-        # campaign_frame.pack()
 
         campaign_name_label = Label(campaign_frame, text='Campaign Name:', font=('Microsoft Yahei UI Light', 10, 'bold'), bg='white', fg='firebrick1')
         campaign_name_label.grid(row=0, column=0, sticky='w')
@@ -47,20 +46,14 @@ class Campaign_Details:
         whatsapp_image = Image.open("images/whatsapp (1).png")
         whatsapp_photo = ImageTk.PhotoImage(whatsapp_image)
 
-        whatsappButton = Button(campaign_frame, image=whatsapp_photo, bg='white', command=whatsapp_clicked, bd=0,
-                                padx=5, pady=15)
+        whatsappButton = Button(campaign_frame, image=whatsapp_photo, bg='white', command=self.whatsapp_clicked, bd=0, padx=5, pady=15)
         whatsappButton.image = whatsapp_photo
         whatsappButton.grid(row=4)
 
-
-def whatsapp_clicked():
-    print("redirecting to whatsapp chat")
-    vedant= +918779784305
-    eesha = 9653360204
-    phone_number = vedant
-    whatsapp_url = f"https://wa.me/{phone_number}"
-    webbrowser.open(whatsapp_url)
-
+    def whatsapp_clicked(self):
+        print("redirecting to whatsapp chat")
+        whatsapp_url = f"https://wa.me/{self.campaign_contact_number}"
+        webbrowser.open(whatsapp_url)
 
 def fetch_campaigns_from_db():
     try:
@@ -91,11 +84,9 @@ def fetch_campaigns_from_db():
             cursor.close()
             connection.close()
 
-
 def open_Volunteer_page():
     root.destroy()
     subprocess.run(["python", "Volunteer_page.py"])
-
 
 # Initialize an empty list for campaigns
 campaign_list = fetch_campaigns_from_db()
