@@ -9,3 +9,9 @@ def logo_name(considered_root):
     logo_image = PhotoImage(file="images/paw.png")  # Replace "your_logo.png" with the path to your logo
     # Set app logo as window icon
     considered_root.iconphoto(True, logo_image)
+
+
+# def back(root,page){
+#     root.destroy()
+#     import (page + "py")
+# }

@@ -77,8 +77,6 @@ add_campaign_button.pack(side=TOP, fill=X, padx=20, pady=(50, 0))
 view_pet = Button(button_frame, text="Open Google Maps", fg="white", bg="#eb4163", bd=0, padx=20, pady=10,command=open_google_maps)
 view_pet.pack(side=TOP, fill=X, padx=20, pady=(50, 0))
 
-# Configure button commands
-# for button in buttons:
-#     button.config(command=open_google_maps)
+
 
 root.mainloop()
