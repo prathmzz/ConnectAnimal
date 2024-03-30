@@ -34,7 +34,7 @@ def save_campaign_to_db(name, location, contact_number, description):
         connection = mysql.connector.connect(host='localhost',
                                              database='userdata',
                                              user='root',
-                                             password='v2wcoder@mysql#123')  # Update with your MySQL password
+                                             password='Vedant@0110')  # Update with your MySQL password
         cursor = connection.cursor()
 
         # SQL query to insert campaign details into the database
