@@ -6,24 +6,8 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 import sqlite3
 from commmon_components import logo_name
-from sidebar import create_sidebar  # Import the create_sidebar function
+from sidebar import *  # Import the create_sidebar function
 
-
-
-def open_lecture_page():
-    root.destroy()
-    subprocess.run(["python", "lecture_page.py"])
-
-def open_Volunteer_page():   
-    root.destroy()
-    subprocess.run(["python", "Volunteer_page.py"])
-
-def open_teacher_section():   
-    root.destroy()
-    subprocess.run(["python", "teacher_section.py"])
-
-def open_Rescue():
-    root.destroy()
 
 def open_view_adoption():
     root.destroy()
@@ -77,7 +61,7 @@ root.title("Adoption Page")
 # Function to create sidebar and other components
 def create_components():
     logo_name(root)
-    topbar, sidebar, buttons = create_sidebar(root, open_lecture_page, open_Volunteer_page, open_teacher_section, open_Rescue)
+    topbar, sidebar, buttons = create_sidebar(root, open_Volunteer_page, open_donation_page, open_rescue_section, open_adoption)
     frame = Frame(root, bg='white')
     frame.place(x=162, y=0)  # Adjusted position to be next to the sidebar
 

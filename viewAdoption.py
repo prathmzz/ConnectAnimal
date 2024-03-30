@@ -1,6 +1,6 @@
 from tkinter import *
 import tkinter as tk
-from sidebar import create_sidebar
+from sidebar import *
 import subprocess
 from commmon_components import logo_name
 from PIL import Image, ImageTk
@@ -19,25 +19,25 @@ class AdoptionApp:
         # Display data along with the image
         self.display_data_with_image()
 
-    def open_lecture_page(self):
-        print("Opening Lecture Page...")
-        self.root.destroy()
-        subprocess.run(["python", "lecture_page.py"])
-
-    def open_Volunteer_page(self):
-        print("Opening Volunteer Page...")
-        self.root.destroy()
-        subprocess.run(["python", "Volunteer_page.py"])
-
-    def open_teacher_section(self):
-        print("Opening Teacher Section Page...")
-        self.root.destroy()
-        subprocess.run(["python", "teacher_section.py"])
-
-    def open_Rescue(self):
-        print("Opening Rescue Page...")
-        self.root.destroy()
-        subprocess.run(["python", "Rescue.py"])
+    # def open_lecture_page(self):
+    #     print("Opening Lecture Page...")
+    #     self.root.destroy()
+    #     subprocess.run(["python", "lecture_page.py"])
+    #
+    # def open_Volunteer_page(self):
+    #     print("Opening Volunteer Page...")
+    #     self.root.destroy()
+    #     subprocess.run(["python", "Volunteer_page.py"])
+    #
+    # def open_teacher_section(self):
+    #     print("Opening Teacher Section Page...")
+    #     self.root.destroy()
+    #     subprocess.run(["python", "teacher_section.py"])
+    #
+    # def open_Rescue(self):
+    #     print("Opening Rescue Page...")
+    #     self.root.destroy()
+    #     subprocess.run(["python", "Rescue.py"])
 
     def retrieve_data_from_db(self):
         conn = sqlite3.connect('Data.db')
@@ -50,8 +50,7 @@ class AdoptionApp:
     def display_data_with_image(self):
         if self.data:
             # Use the create_sidebar function to create the sidebar
-            topbar, sidebar, buttons = create_sidebar(self.root, self.open_Volunteer_page, self.open_lecture_page, 
-                                                      self.open_Rescue, self.open_teacher_section)
+            topbar, sidebar, buttons = create_sidebar(self.root, open_Volunteer_page, open_donation_page, open_rescue_section, open_adoption)
 
             # Create a frame to contain all the data frames
             data_frame = tk.Frame(self.root)
