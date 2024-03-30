@@ -51,39 +51,36 @@ from tkinter import *
 import tkinter as tk
 from PIL import Image, ImageTk
 import subprocess
-from sidebar import create_sidebar  # Import the create_sidebar function
+from sidebar import *  # Import the create_sidebar function
+from commmon_components import logo_name
 
-def open_lecture_page():
-    print("Opening Lecture Page...")
-    root.destroy()
-    subprocess.run(["python", "lecture_page.py"])
 
-def open_Volunteer_page():
-    print("Opening Volunteer Page...")
-    root.destroy()
-    subprocess.run(["python", "Volunteer_page.py"])
-
-def open_teacher_section():
-    print("Opening Teacher Section Page...")
-    root.destroy()
-    subprocess.run(["python", "teacher_section.py"])
-
-def open_Rescue():
-    print("Opening Rescue Page...")
-    root.destroy()
-    subprocess.run(["python", "Rescue.py"])
-
+# def open_donation_page():
+#     print("Opening Lecture Page...")
+#     subprocess.run(["python", "lecture_page.py"])
+#
+# def open_Volunteer_page():
+#     print("Opening Volunteer Page...")
+#     subprocess.run(["python", "Volunteer_page.py"])
+#
+# def open_rescue_section():
+#     print("Opening Teacher Section Page...")
+#     subprocess.run(["python", "Rescue.py"])
+#
+# def open_adoption():
+#     print("Opening Rescue Page...")
+#     subprocess.run(["python", "teacher_section.py"])
 def open_donation_form():
     print("Opening Donation Form...")
     root.destroy()
     subprocess.run(["python", "donation_form.py"])
 
 root = Tk()
-root.title("Animal Connect")
+logo_name(root)
 root.geometry("800x600+100+100")
 
 # Call create_sidebar with the required arguments
-topbar, sidebar, buttons = create_sidebar(root, open_lecture_page, open_Volunteer_page, open_teacher_section, open_Rescue)
+topbar, sidebar, buttons = create_sidebar(root, open_Volunteer_page, open_donation_page, open_rescue_section, open_adoption)
 
 # # Add specific content for the lecture page
 # label = tk.Label(root, text="Donation Page")
