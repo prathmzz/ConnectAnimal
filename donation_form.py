@@ -1,108 +1,134 @@
 from tkinter import *
-from tkinter import filedialog
 from PIL import Image, ImageTk
 from tkinter import messagebox
-from sidebar import create_sidebar  # Import the create_sidebar function
+import subprocess
+import tkinter as tk
+from tkinter import filedialog, messagebox
+import sqlite3
+from commmon_components import logo_name
+from sidebar import *  # Import the create_sidebar function
 
 def open_Volunteer_page():
     print("Opening Volunteer Page...")
+    root.destroy()
+    subprocess.run(["python", "Volunteer_page.py"])
 
-def open_lecture_page():
-    print("Opening Lecture Page...")
+def open_donation_page():
+    print("Opening Donation Page...")
 
-def open_Rescue():
-    print("Opening Rescue Page...")
+def open_rescue_section():
+    print("Opening Rescue Section...")
 
-def open_teacher_section():
-    print("Opening Teacher Section...")
+def open_adoption():
+    print("Opening Adoption Page...")
 
-def open_image():
-    # Open a file dialog to select an image file
-    file_path = filedialog.askopenfilename(filetypes=[("Image files", ".png;.jpg;.jpeg;.gif")])
-
-    # Check if a file was selected
+def select_image():
+    global image_data
+    file_path = filedialog.askopenfilename(filetypes=[("Image files", "*.png;*.jpg;*.jpeg")])
     if file_path:
-        # Open the image file
-        image = Image.open(file_path)
+        with open(file_path, "rb") as file:
+            image_data = file.read()
+        upload_label.config(text=file_path)
 
-        # Resize the image to fit within a maximum width and height
-        max_width = 300
-        max_height = 200
-        image.thumbnail((max_width, max_height))
+def submit_form():
+    name = name_entry.get()
+    contact_info = contact_entry.get()
+    disease = disease_entry.get()
+    funds = funds_entry.get()
+    
+    if not all([name, contact_info, disease, funds]):
+        messagebox.showerror("Error", "Please fill in all fields.")
+        return
+    
+    if not image_data:
+        messagebox.showerror("Error", "Please select an image.")
+        return
+    
+    # Process the data as needed, for example, you can save it to a database
+    print("Name:", name)
+    print("Contact Info:", contact_info)
+    print("Disease:", disease)
+    print("Funds required for treatment:", funds)
+    print("Image Data Length:", len(image_data))
 
-        # Display the image in a label
-        photo = ImageTk.PhotoImage(image)
-
-        # Destroy the "Open Image" button
-        button.destroy()
-
-        # Create a new label to display the image
-        image_label = Label(frame, image=photo)
-        image_label.photo = photo  # Keep a reference to avoid garbage collection
-        image_label.grid(row=2, column=0, padx=40, pady=(12, 0))
-
-def newPost():
-    pet_name = nameEntry.get()
-    messagebox.showinfo("Adoption Information", f"{pet_name} is ready to get adopted!")
-
-    # Destroy the frame after displaying the message
-    frame.destroy()
+    conn = sqlite3.connect('Donation.db')
+    table_create_query = '''CREATE TABLE IF NOT EXISTS User_Data
+    (name TEXT ,contact_info TEXT , disease TEXT , image_data BLOB,funds TEXT)'''
+    conn.execute(table_create_query)
+    data_insert_query = ''' INSERT INTO User_Data(name,contact_info,disease,image_data,funds) 
+    VALUES (?,?,?,?,?)'''
+    data_insert_tuple=(name,contact_info,disease,image_data,funds)
+    cursor=conn.cursor()
+    cursor.execute(data_insert_query,data_insert_tuple)
+    conn.commit()
+    conn.close()
 
 root = Tk()
-root.title("Volunteer Page")
-
 root.geometry("800x600+100+100")
+root.title("Donation Page")
 
-# Use the create_sidebar function to create the sidebar
-sidebar, topbar, buttons = create_sidebar(root, open_Volunteer_page, open_lecture_page, open_Rescue, open_teacher_section)
+# Function to create sidebar and other components
+def create_components():
+    logo_name(root)
+    topbar, sidebar, buttons = create_sidebar(root, open_Volunteer_page, open_donation_page, open_rescue_section, open_adoption)
+    frame = Frame(root, bg='white')
+    frame.place(x=162, y=0)  # Adjusted position to be next to the sidebar
 
-frame =Canvas(root, bg="white")
-frame.pack(side=TOP, fill=BOTH, expand=True)
+    # Create a frame for the button and label
+    button_frame = Frame(root, bg="white")
+    button_frame.pack(side=TOP, fill=X)
 
-imageLabel = Label(frame,text='License/ Proof of Identity:',font=('Microsost Yahei UI Light',10,'bold'),bg='white',fg='black')
-imageLabel.grid(row=1,column=0,sticky='w',padx=40,pady=(12,0))
+    # Create the main frame
+    main_frame = Frame(root, bg="white")
+    main_frame.place(relx=0.6, rely=0.45, anchor=CENTER)
 
-button = Button(frame, text="Open Image", command=open_image)
-button.grid(row=2, column=0, padx=40, pady=(12, 0))
+    # Add the label
+    heading = Label(main_frame, text='Post to collect funds', font=('Microsoft Yahei UI Light', 18, 'bold underline'), bg='white', fg='firebrick1')
+    heading.grid(row=0, column=0, padx=55, pady=10, columnspan=2)
 
-phoneNumberLabel = Label(frame,text='Name:',font=('Microsost Yahei UI Light',10,'bold'),bg='white',fg='black')
-phoneNumberLabel.grid(row=3,column=0,sticky='w',padx=40,pady=(12,0))
+    # Add the entry fields
+    fields = [
+        ('Name', 1),
+        ('Contact Info', 5),
+        ('Disease', 7),
+        ('Funds required for treatment(In INR)', 9)  # Corrected row number
+    ]
 
-phoneNumberEntry = Entry(frame,width=30,font=('Microsost Yahei UI Light',10,'bold'),bg='#ffe3e3', fg='white')
-phoneNumberEntry.grid(row=4,column=0,sticky='w',padx=40)
+    for text, row in fields:
+        label = Label(main_frame, text=text, font=('Microsoft Yahei UI Light', 10, 'bold'), bg='white', fg='firebrick1')
+        label.grid(row=row, column=0, sticky='w', padx=40, pady=(12, 0))
 
-nameLabel = Label(frame,text='Contact:',font=('Microsost Yahei UI Light',10,'bold'),bg='white',fg='black')
-nameLabel.grid(row=5,column=0,sticky='w',padx=40,pady=(12,0))
+    global name_entry, contact_entry, disease_entry, upload_label, funds_entry
 
-nameEntry = Entry(frame,width=30,font=('Microsost Yahei UI Light',10,'bold'),bg='#ffe3e3',fg='white')
-nameEntry.grid(row=6,column=0,sticky='w',padx=40)
+    name_entry = Entry(main_frame, width=30, font=('Microsoft Yahei UI Light', 10, 'bold'), bg='firebrick1', fg='white')
+    name_entry.grid(row=2, column=0, sticky='w', padx=40)
 
-ageLabel = Label(frame,text='Email:',font=('Microsost Yahei UI Light',10,'bold'),bg='white',fg='black')
-ageLabel.grid(row=7,column=0,sticky='w',padx=40,pady=(12,0))
+    contact_entry = Entry(main_frame, width=30, font=('Microsoft Yahei UI Light', 10, 'bold'), bg='firebrick1', fg='white')
+    contact_entry.grid(row=6, column=0, sticky='w', padx=40)
 
-ageEntry = Entry(frame,width=30,font=('Microsost Yahei UI Light',10,'bold'),bg='#ffe3e3',fg='white')
-ageEntry.grid(row=8,column=0,sticky='w',padx=40)
+    disease_entry = Entry(main_frame, width=30, font=('Microsoft Yahei UI Light', 10, 'bold'), bg='firebrick1', fg='white')
+    disease_entry.grid(row=8, column=0, sticky='w', padx=40)
 
-addressLabel = Label(frame,text='Address:',font=('Microsost Yahei UI Light',10,'bold'),bg='white',fg='black')
-addressLabel.grid(row=9,column=0,sticky='w',padx=40,pady=(12,0))
+    funds_entry = Entry(main_frame, width=30, font=('Microsoft Yahei UI Light', 10, 'bold'), bg='firebrick1', fg='white')
+    funds_entry.grid(row=10, column=0, sticky='w', padx=40)  # Corrected row number
 
-adressEntry = Entry(frame,width=30,font=('Microsost Yahei UI Light',10,'bold'),bg='#ffe3e3',fg='white')
-adressEntry.grid(row=10,column=0,sticky='w',padx=40)
+    # Image Upload
+    upload_frame = Frame(root)
+    upload_frame.place(relx=0.6, rely=0.8, anchor=CENTER)
 
-descLabel = Label(frame,text='Description:',font=('Microsost Yahei UI Light',10,'bold'),bg='white',fg='black')
-descLabel.grid(row=11,column=0,sticky='w',padx=40,pady=(12,0))
+    upload_label = Label(upload_frame, text="Upload Image:", font=('Microsoft Yahei UI Light', 10, 'bold'), bg='white', fg='firebrick1')
+    upload_label.pack(side=LEFT)
 
-descEntry = Entry(frame,width=30,font=('Microsost Yahei UI Light',10,'bold'),bg='#ffe3e3',fg='white')
-descEntry.grid(row=12,column=0,sticky='w',padx=40)
+    select_button = Button(upload_frame, text="Select Image", command=select_image, font=('Microsoft Yahei UI Light', 10, 'bold'), bg='firebrick1', fg='white')
+    select_button.pack(side=LEFT, padx=(0, 10))
 
-termandconditions = Checkbutton(frame,text='I agree to the terms & conditions',font=('Microsost Yahei UI Light',8,'bold'),fg='firebrick1',bg='white',activebackground='white',activeforeground='firebrick1',cursor='hand2')
-termandconditions.grid(row=13,column=0,padx=2,pady=13)
+    # Submit Button
+    submit_frame = Frame(root)
+    submit_frame.place(relx=0.6, rely=0.9, anchor=CENTER)
 
-postButton = Button(frame,text='POST',font=('Open Sans',16,'bold'),fg='white',bg='red',cursor='hand2',bd=0,width=19,foreground='white',command=newPost)
-postButton.grid(row=14,column=0,padx=2,pady=13)
+    submit_button = Button(submit_frame, text="Post", command=submit_form, font=('Microsoft Yahei UI Light', 10, 'bold'), bg='firebrick1', fg='white')
+    submit_button.pack(side=TOP, pady=10)
 
-for button in buttons:
-    button.config(command=open_Volunteer_page)
+create_components()
 
 root.mainloop()
-
