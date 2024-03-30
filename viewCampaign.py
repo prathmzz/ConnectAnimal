@@ -5,6 +5,7 @@ import webbrowser
 import subprocess
 import mysql.connector
 from commmon_components import logo_name
+from sidebar import *
 
 
 class Campaign_Details:
@@ -96,40 +97,8 @@ logo_name(root)
 root.geometry("800x600+100+100")
 
 # Create the top bar
-topbar = Frame(root, bg="#ed5876", width=600, height=50)
-topbar.pack(side=TOP, fill=X)
+topbar,sidebar, buttons = create_sidebar(root,open_Volunteer_page, open_donation_page, open_rescue_section, open_adoption)
 
-title = Button(topbar, text="Animal Connect", font=("Arial", 15, "bold"), bd=0, bg="#ed5876", fg="#ffffff", activebackground='#eb4163')
-title.pack(side=LEFT, padx=20, pady=10)
-
-user_icon_image = PhotoImage(file="images/settings_icon.png").subsample(2)
-user_icon = Label(topbar, image=user_icon_image, bg="#ed5876")
-user_icon.pack(side=RIGHT, padx=10, pady=10)
-
-user_name = Label(topbar, text="Animal Connect", font=("Arial", 16), bg="#ed5876", fg="#ffffff")
-user_name.pack(side=RIGHT, pady=10)
-
-# Create the sidebar
-sidebar = Frame(root, width=200, height=600, bg="#eb4163")
-sidebar.pack(side=LEFT, fill=Y)
-
-menu_items = [
-    ("Volunteer", "home_icon.png"),
-    ("Donation", "lecture_icon.png"),
-    ("Adoption", "user_icon.png"),
-    ("Rescue", "teacher_icon.png"),
-]
-
-buttons = []
-
-for item in menu_items:
-    image = Image.open("Images/" + item[1])
-    photo_image = ImageTk.PhotoImage(image)
-    button = Button(sidebar, text=item[0], image=photo_image, compound=LEFT, fg="white", bg="#eb4163", bd=0, padx=20,
-                    pady=10, anchor="w")
-    button.image = photo_image
-    button.pack(anchor="w", fill=X)
-    buttons.append(button)
 
 # Create a frame for the content
 content_frame = Frame(root, bg="white", width=600, height=550)
