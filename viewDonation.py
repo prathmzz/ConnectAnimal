@@ -69,7 +69,7 @@ class AdoptionApp:
                 name_label = tk.Label(details_frame, text="Owner Name: " + name)
                 name_label.pack()
 
-                disease_label = tk.Label(details_frame, text="disease: " + disease)
+                disease_label = tk.Label(details_frame, text="Disease: " + disease)
                 disease_label.pack()
 
                 contact_label = tk.Label(details_frame, text="Contact Info: " + str(contact_info))

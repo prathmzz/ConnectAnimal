@@ -13,6 +13,10 @@ def open_view_adoption():
     root.destroy()
     subprocess.run(["python", "display.py"])
 
+def open_main_page():
+    root.destroy()
+    subprocess.run(["python", "viewAdoption.py"])
+    
 def select_image():
     global image_data
     file_path = filedialog.askopenfilename(filetypes=[("Image files", "*.png;*.jpg;*.jpeg")])
@@ -53,6 +57,9 @@ def submit_form():
     cursor.execute(data_insert_query,data_insert_tuple)
     conn.commit()
     conn.close()
+
+    messagebox.showinfo('Success','Adoption post added successfully')
+    open_main_page()
 
 root = Tk()
 root.geometry("800x600+100+100")
