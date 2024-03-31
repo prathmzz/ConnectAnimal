@@ -10,7 +10,7 @@ def open_post_donation_page():
 
 def  open_viewDonation():
     root.destroy()
-    import viewAdoption
+    import viewDonation
 
 root = Tk()
 logo_name(root,"Donation")
