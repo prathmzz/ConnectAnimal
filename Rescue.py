@@ -26,7 +26,7 @@ def fetch_user_location():
     location_label.config(text=f"Your location: {user_city}")
 
 root = Tk()
-logo_name(root)
+logo_name(root,"Rescue")
 root.geometry("800x600+100+100")
 
 # Use the create_sidebar function to create the sidebar

@@ -13,7 +13,7 @@ def  open_viewAdoption():
     import viewAdoption
 
 root = Tk()
-logo_name(root)
+logo_name(root,"Adoption")
 root.geometry("800x600+100+100")
 
 # Use the create_sidebar function to create the sidebar

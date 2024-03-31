@@ -33,7 +33,7 @@ root = Tk()
 root.geometry("800x600+100+100")
 logo_name(root)
 topbar, sidebar, buttons = create_sidebar(root, open_Volunteer_page, open_donation_page, open_rescue_section,open_adoption)
-welcome_label = Label(root, text="Welcome to Animal Connect", font=("Arial", 20))
+welcome_label = Label(root, text="Welcome to Animal Connect", font=("kristen itc", 20, "underline"))
 welcome_label.pack(pady=20)
 
 button_frame = Frame(root, bg="lightblue", height=400)
@@ -59,5 +59,8 @@ storyPhoto = ImageTk.PhotoImage(storyImage)
 imagelabel1 = Label(button_frame, image=storyPhoto)
 imagelabel1.image = storyPhoto
 imagelabel1.place(anchor=CENTER, relx=0.5, rely=0.5)
+
+
+
 
 root.mainloop()
