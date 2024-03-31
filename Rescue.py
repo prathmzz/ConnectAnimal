@@ -60,10 +60,10 @@ button_frame.pack(side=TOP, fill=X)
 # Button(button_frame, text="Find Centers", command=fetch_user_location).pack(side=TOP, pady=(
 # 0, 5))  # Adjusted packing options to remove space
 #
-# # Label to display user's location
-# location_label = Label(button_frame, text="")
-# location_label.pack(side=TOP, pady=5)
-#
+# Label to display user's location
+location_label = Label(button_frame, text="")
+location_label.pack(side=TOP, pady=5)
+
 # # Add a space between the buttons
 # Label(button_frame, text="").pack(side=TOP, pady=10)
 #

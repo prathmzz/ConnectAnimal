@@ -5,6 +5,7 @@ from sidebar import create_sidebar
 from commmon_components import logo_name
 import subprocess
 import mysql.connector
+import webbrowser
 
 def open_lecture_page():
     root.destroy()
@@ -21,15 +22,7 @@ def open_teacher_section():
 def open_Rescue():
     root.destroy()
 
-# def open_view_campaign():
-#     root.destroy()
-#     subprocess.run(["python", "viewCampaign.py"])
-
-# def save_campaign():
-#     root.destroy()
-#     subprocess.run(["python", "Rescue.py"])
-
-def save_campaign_to_db(name, location, contact_number, description):
+def save_campaign_to_db(name, location, contact_number, google_form_link):
     try:
         connection = mysql.connector.connect(host='localhost',
                                              database='userdata',
@@ -38,8 +31,8 @@ def save_campaign_to_db(name, location, contact_number, description):
         cursor = connection.cursor()
 
         # SQL query to insert campaign details into the database
-        sql_query = "INSERT INTO campaigns (name, location, contact_number, description) VALUES (%s, %s, %s, %s)"
-        campaign_data = (name, location, contact_number, description)
+        sql_query = "INSERT INTO campaigns (name, location, contact_number, google_form_link) VALUES (%s, %s, %s, %s)"
+        campaign_data = (name, location, contact_number, google_form_link)
         cursor.execute(sql_query, campaign_data)
         connection.commit()
 
@@ -59,16 +52,15 @@ def save_campaign():
     name = name_entry.get()
     location = location_entry.get()
     contact_number = contact_entry.get()
-    description = description_entry.get()
+    google_form_link = google_form_entry.get()
 
     # Save the campaign details to the database
-    save_campaign_to_db(name, location, contact_number, description)
+    save_campaign_to_db(name, location, contact_number, google_form_link)
 
 # Function to open the view campaign page
 def open_view_campaign():
     root.destroy()
     subprocess.run(["python", "viewCampaign.py"])
-
 
 root = Tk()
 logo_name(root)
@@ -97,7 +89,7 @@ fields = [
     ('Name of Campaign', 1),
     ('Location', 3),
     ('Contact number', 5),
-    ('Description of your Campaign', 7)
+    ('Google Form Link', 7)
 ]
 
 for text, row in fields:
@@ -106,7 +98,8 @@ for text, row in fields:
 
     entry = Entry(main_frame, width=30, font=('Microsoft Yahei UI Light', 10, 'bold'), bg='firebrick1', fg='white')
     entry.grid(row=row + 1, column=0, sticky='w', padx=40)
-
+    if text == 'Google Form Link':
+        google_form_entry = entry
 
 name_entry = Entry(main_frame, width=30, font=('Microsost Yahei UI Light', 10, 'bold'), bg='firebrick1', fg='white')
 name_entry.grid(row=2, column=0, sticky='w', padx=40)
@@ -117,8 +110,8 @@ location_entry.grid(row=4, column=0, sticky='w', padx=40)
 contact_entry = Entry(main_frame, width=30, font=('Microsost Yahei UI Light', 10, 'bold'), bg='firebrick1', fg='white')
 contact_entry.grid(row=6, column=0, sticky='w', padx=40)
 
-description_entry = Entry(main_frame, width=30, font=('Microsost Yahei UI Light', 10, 'bold'), bg='firebrick1', fg='white')
-description_entry.grid(row=8, column=0, sticky='w', padx=40)
+google_form_entry = Entry(main_frame, width=30, font=('Microsost Yahei UI Light', 10, 'bold'), bg='firebrick1', fg='white')
+google_form_entry.grid(row=8, column=0, sticky='w', padx=40)
 
 # Add the terms and conditions checkbox
 check = IntVar()

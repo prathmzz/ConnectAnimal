@@ -1,9 +1,8 @@
 from tkinter import *
-from PIL import Image, ImageTk
-from tkinter import messagebox
 import webbrowser
 import subprocess
 import mysql.connector
+from PIL import Image, ImageTk
 from commmon_components import logo_name
 from sidebar import *
 
@@ -43,18 +42,15 @@ class Campaign_Details:
         campaign_contact_value = Label(campaign_frame, text=self.campaign_contact_number, font=('Microsoft Yahei UI Light', 10), bg='white', fg='firebrick1')
         campaign_contact_value.grid(row=3, column=1, sticky='w')
 
-        # Resize the WhatsApp logo image
-        whatsapp_image = Image.open("images/whatsapp (1).png")
-        whatsapp_photo = ImageTk.PhotoImage(whatsapp_image)
+        # Button to open Google Form link
+        google_form_button = Button(campaign_frame, text='Fill Form', font=('Microsoft Yahei UI Light', 10), bg='white', fg='firebrick1', command=self.open_google_form)
+        google_form_button.grid(row=4, columnspan=2, pady=10)
 
-        whatsappButton = Button(campaign_frame, image=whatsapp_photo, bg='white', command=self.whatsapp_clicked, bd=0, padx=5, pady=15)
-        whatsappButton.image = whatsapp_photo
-        whatsappButton.grid(row=4)
+    def open_google_form(self):
+        print("Opening Google Form...")
+        google_form_url = self.campaign_description
+        webbrowser.open(google_form_url)
 
-    def whatsapp_clicked(self):
-        print("redirecting to whatsapp chat")
-        whatsapp_url = f"https://wa.me/{self.campaign_contact_number}"
-        webbrowser.open(whatsapp_url)
 
 def fetch_campaigns_from_db():
     try:
@@ -85,9 +81,16 @@ def fetch_campaigns_from_db():
             cursor.close()
             connection.close()
 
+
 def open_Volunteer_page():
     root.destroy()
     subprocess.run(["python", "Volunteer_page.py"])
+
+
+def open_donation_page():
+    root.destroy()
+    subprocess.run(["python", "donation_page.py"])
+
 
 # Initialize an empty list for campaigns
 campaign_list = fetch_campaigns_from_db()
@@ -97,19 +100,34 @@ logo_name(root)
 root.geometry("800x600+100+100")
 
 # Create the top bar
-topbar,sidebar, buttons = create_sidebar(root,open_Volunteer_page, open_donation_page, open_rescue_section, open_adoption)
-
+topbar, sidebar, buttons = create_sidebar(root, open_Volunteer_page, open_donation_page, open_rescue_section, open_adoption)
 
 # Create a frame for the content
 content_frame = Frame(root, bg="white", width=600, height=550)
 content_frame.pack(side=RIGHT, fill=BOTH, expand=True)
+
+# Add a canvas for scrolling
+canvas = Canvas(content_frame, bg="white")
+canvas.pack(side=LEFT, fill=BOTH, expand=True)
+
+# Add a scrollbar
+scrollbar = Scrollbar(content_frame, orient=VERTICAL, command=canvas.yview)
+scrollbar.pack(side=RIGHT, fill=Y)
+
+# Configure canvas scrolling
+canvas.configure(yscrollcommand=scrollbar.set)
+canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+
+# Create a frame inside the canvas to hold the campaign details
+frame = Frame(canvas, bg='white')
+
+# Add the frame to the canvas
+canvas.create_window((0, 0), window=frame, anchor='nw')
+
 button_frame = Frame(content_frame, bg="white")
 button_frame.pack(side=TOP, fill=X)
-add_campaign_button = Button(button_frame, text="Back to volunteer page", fg="white", bg="#eb4163", bd=0, padx=20, pady=10,command=open_Volunteer_page)
-add_campaign_button.pack(side=RIGHT, fill=X, padx=(50, 250), pady=(25, 25))  
-# Create a frame for the campaign details
-frame = Frame(content_frame, bg='white')
-frame.pack(fill=BOTH, expand=True)
+add_campaign_button = Button(button_frame, text="Back to volunteer page", fg="white", bg="#eb4163", bd=0, padx=20, pady=10, command=open_Volunteer_page)
+add_campaign_button.pack(side=RIGHT, fill=X, padx=(50, 250), pady=(25, 25))
 
 # Display each campaign from the list
 for index, campaign in enumerate(campaign_list):
