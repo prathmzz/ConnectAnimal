@@ -63,7 +63,13 @@ def submit_form():
     cursor.execute(data_insert_query,data_insert_tuple)
     conn.commit()
     conn.close()
+    messagebox.showinfo('Success','Donation post added successfully')
+    open_main_page()
 
+def open_main_page():
+    print("Opening viewDonation page...")
+    root.destroy()
+    subprocess.run(["python", "viewDonation.py"])
 root = Tk()
 root.geometry("800x600+100+100")
 logo_name(root)

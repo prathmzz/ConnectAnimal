@@ -75,7 +75,7 @@ class AdoptionApp:
                 contact_label = tk.Label(details_frame, text="Contact Info: " + str(contact_info))
                 contact_label.pack()
 
-                funds_label = tk.Label(details_frame, text="Contact Info: " + str(funds))
+                funds_label = tk.Label(details_frame, text="Funds Required: " + str(funds))
                 funds_label.pack()
 
 
