@@ -1,6 +1,8 @@
 from tkinter import *
 from PIL import Image, ImageTk
 from sidebar import *
+from commmon_components import logo_name
+
 
 def open_home(root):
     pass
@@ -29,6 +31,7 @@ def prev_image():
 
 root = Tk()
 root.geometry("800x600+100+100")
+logo_name(root)
 topbar, sidebar, buttons = create_sidebar(root, open_Volunteer_page, open_donation_page, open_rescue_section,open_adoption)
 welcome_label = Label(root, text="Welcome to Animal Connect", font=("Arial", 20))
 welcome_label.pack(pady=20)
@@ -38,12 +41,12 @@ button_frame.pack(side=TOP, fill=X)
 
 previous_image = Image.open("Images/previous.png").resize((30, 30))
 previous_photo = ImageTk.PhotoImage(previous_image)
-previousButton = Button(button_frame, image=previous_photo, bd=0, command=prev_image)
+previousButton = Button(button_frame, image=previous_photo, bg="lightblue",bd=0, command=prev_image)
 previousButton.place(rely=0.5, anchor=W, relx=0.05)
 
 nextImage = Image.open("Images/next-button.png").resize((30, 30))
 nextphoto = ImageTk.PhotoImage(nextImage)
-nextButton = Button(button_frame, image=nextphoto, bd=0, command=next_image)
+nextButton = Button(button_frame, image=nextphoto, bg="lightblue", bd=0, command=next_image)
 nextButton.place(anchor=E, rely=0.5, relx=0.95)
 
 image_array = ["story1.png", "story2.jpeg","story3.jpeg","story4.jpg","story5.jpg"]
