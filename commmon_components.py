@@ -1,7 +1,7 @@
 from tkinter import *
-from PIL import ImageTk
-from tkinter import messagebox
-import pymysql
+# from PIL import ImageTk
+# from tkinter import messagebox
+# import pymysql
 
 
 def logo_name(considered_root):
