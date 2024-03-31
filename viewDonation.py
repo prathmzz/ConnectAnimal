@@ -35,6 +35,8 @@ class AdoptionApp:
 
     def whatsapp_clicked(self, contact_number):
         print("redirecting to whatsapp chat")
+        if contact_number[:3] != "+91":
+            contact_number = "+91" + contact_number
         whatsapp_url = f"https://wa.me/{contact_number}"
         webbrowser.open(whatsapp_url)
 

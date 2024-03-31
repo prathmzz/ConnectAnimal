@@ -32,4 +32,16 @@ add_campaign_button.pack(side=TOP, fill=X, padx=20, pady=(50, 0))
 view_pet = Button(button_frame, text="Find Pet for Adoption", fg="white", bg="#eb4163", bd=0, padx=20,font=("Jungle Fever", 12,"bold"), pady=10,command=open_viewAdoption)
 view_pet.pack(side=TOP, fill=X, padx=20, pady=(50, 0))
 
+
+# Load and resize the image
+image = Image.open("images/bg-2.png")
+image = image.resize((700, 250), Image.LANCZOS)  # Resize the image to fill remaining space
+photo = ImageTk.PhotoImage(image)
+
+# Create a label to display the image
+image_label = Label(root, image=photo)
+image_label.image = photo  # Keep a reference to avoid garbage collection
+image_label.pack(fill=BOTH, expand=True,pady=(110,0))
+
+
 root.mainloop()
