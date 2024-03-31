@@ -49,7 +49,7 @@ nextphoto = ImageTk.PhotoImage(nextImage)
 nextButton = Button(button_frame, image=nextphoto, bg="lightblue", bd=0, command=next_image)
 nextButton.place(anchor=E, rely=0.5, relx=0.95)
 
-image_array = ["story1.png", "story2.jpeg","story3.jpeg","story4.jpg","story5.jpg"]
+image_array = ["adopt.jpg", "donation.jpg","Rescue.jpg","volunteeer.jpg"]
 image_index = 3
 
 image_path = "Images/" + image_array[image_index]  # Change to your image path
