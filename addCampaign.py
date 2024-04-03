@@ -40,6 +40,14 @@ def save_campaign():
     contact_number = contact_entry.get()
     google_form_link = google_form_entry.get()
 
+    if "docs.google.com" not in google_form_link:
+        messagebox.showerror("Error", "Invalid Google Form link. Please provide a valid Google Form link.")
+        return
+    
+    if not contact_number.isdigit() or len(contact_number) != 10:
+        messagebox.showerror("Error", "Invalid contact number. Please provide a 10-digit contact number.")
+        return
+
     # Save the campaign details to the database
     save_campaign_to_db(name, location, contact_number, google_form_link)
 

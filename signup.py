@@ -110,7 +110,7 @@ confirmpasswordEntry.grid(row=8,column=0,sticky='w',padx=40)
 check=IntVar()
 termandconditions = Checkbutton(frame,text='I agree to the terms & conditions',font=('Microsost Yahei UI Light',8,'bold'),fg='firebrick1',bg='white',activebackground='white',activeforeground='firebrick1',cursor='hand2', variable=check)
 termandconditions.grid(row=9,column=0,padx=2,pady=13)
-
+    
 #signup button
 signupButton = Button(frame,text='SignUp',font=('Open Sans',16,'bold'),bd=0,bg='firebrick1',fg='white',activebackground='firebrick1',activeforeground='white',width=17,command=connect_database)
 signupButton.grid(row=10,column=0,pady=10)
