@@ -1,11 +1,8 @@
 from tkinter import *
 import webview
-from sidebar import create_sidebar  # Import the create_sidebar function
 import geocoder
-import subprocess
 from PIL import Image, ImageTk
-from sidebar import *
-import subprocess
+from sidebar import create_sidebar
 from commmon_components import logo_name
 
 def open_google_maps():
@@ -21,16 +18,19 @@ def open_google_maps():
     webview.start()
 
 def fetch_user_location():
+    # Get user's station
     location = geocoder.ip('me')
-    user_city = location.city
-    location_label.config(text=f"Your location: {user_city}")
+    station = location.raw.get('station', 'Unknown')  # Get the station information or set to 'Unknown' if not available
+    
+    # Update location label
+    location_label.config(text=f"Your location: {station}")
 
 root = Tk()
-logo_name(root,"Rescue")
+logo_name(root, "Rescue")
 root.geometry("800x600+100+100")
 
 # Use the create_sidebar function to create the sidebar
-topbar, sidebar, buttons = create_sidebar(root, open_Volunteer_page, open_donation_page, open_rescue_section, open_adoption)
+topbar, sidebar, buttons = create_sidebar(root, open_google_maps, fetch_user_location, fetch_user_location, fetch_user_location)
 
 # Create a frame for the buttons in the white portion
 button_frame = Frame(root, bg="white")
@@ -53,6 +53,6 @@ photo = ImageTk.PhotoImage(image)
 # Create a label to display the image
 image_label = Label(root, image=photo)
 image_label.image = photo  # Keep a reference to avoid garbage collection
-image_label.pack(fill=BOTH, expand=True,pady=(80,0))
+image_label.pack(fill=BOTH, expand=True, pady=(80, 0))
 
 root.mainloop()

@@ -1,6 +1,7 @@
 from tkinter import *
 from PIL import ImageTk
 from tkinter import messagebox
+import re
 import pymysql
 from commmon_components import logo_name
 
@@ -18,7 +19,11 @@ def connect_database():
     elif passwordEntry.get() != confirmpasswordEntry.get():
         messagebox.showerror('Error', 'Passwords do not match')
     elif check.get() == 0:
-        messagebox.showerror('Error', 'Please accept terms and condition')
+        messagebox.showerror('Error', 'Please accept terms and conditions')
+    elif not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', emailEntry.get()):
+        messagebox.showerror('Error', 'Invalid email format')
+    elif not re.match(r'^[a-zA-Z][a-zA-Z0-9]*$', usernameEntry.get()):
+        messagebox.showerror('Error', 'Username should start with a letter and can contain letters and numbers only')
     else:
         try:
             con = pymysql.connect(host='localhost', user='root', password='v2wcoder@mysql#123')
@@ -43,13 +48,12 @@ def connect_database():
         row = mycursor.fetchone()
         if row is not None:
             messagebox.showerror('Error', f'Username already exists')
-
         else:
             query='insert into data(email, username, password) values(%s, %s, %s)' 
             mycursor.execute(query,(emailEntry.get(), usernameEntry.get(), passwordEntry.get()))
             con.commit()
             con.close()
-            messagebox.showinfo('Success','Registeration is successful')
+            messagebox.showinfo('Success','Registration is successful')
             clear()
             signup_window.destroy()
             import signin
@@ -74,7 +78,6 @@ frame.place(x=554,y=100)
 heading = Label(frame,text='USER REGISTER',font=('Microsoft Yahei UI Light',18,'bold underline'),bg='white',fg='firebrick1')
 heading.grid(row=0,column=0,padx=55,pady=10)
 
-
 #email
 emailLabel = Label(frame,text='EMAIL',font=('Microsost Yahei UI Light',10,'bold'),bg='white',fg='firebrick1')
 emailLabel.grid(row=1,column=0,sticky='w',padx=40,pady=(12,0))
@@ -97,13 +100,13 @@ passwordEntry = Entry(frame,width=30,font=('Microsost Yahei UI Light',10,'bold')
 passwordEntry.grid(row=6,column=0,sticky='w',padx=40)
 
 # confirm password
-confirmpasswordLabel = Label(frame,text='CONNFIRM PASSWORD',font=('Microsost Yahei UI Light',10,'bold'),bg='white',fg='firebrick1')
+confirmpasswordLabel = Label(frame,text='CONFIRM PASSWORD',font=('Microsost Yahei UI Light',10,'bold'),bg='white',fg='firebrick1')
 confirmpasswordLabel.grid(row=7,column=0,sticky='w',padx=40,pady=(12,0))
 
 confirmpasswordEntry = Entry(frame,width=30,font=('Microsost Yahei UI Light',10,'bold'),bg='firebrick1',fg='white')
 confirmpasswordEntry.grid(row=8,column=0,sticky='w',padx=40)
 
-#terms and conditrions checkbox
+# terms and conditions checkbox
 check=IntVar()
 termandconditions = Checkbutton(frame,text='I agree to the terms & conditions',font=('Microsost Yahei UI Light',8,'bold'),fg='firebrick1',bg='white',activebackground='white',activeforeground='firebrick1',cursor='hand2', variable=check)
 termandconditions.grid(row=9,column=0,padx=2,pady=13)
@@ -112,13 +115,11 @@ termandconditions.grid(row=9,column=0,padx=2,pady=13)
 signupButton = Button(frame,text='SignUp',font=('Open Sans',16,'bold'),bd=0,bg='firebrick1',fg='white',activebackground='firebrick1',activeforeground='white',width=17,command=connect_database)
 signupButton.grid(row=10,column=0,pady=10)
 
-#redirecteing to login
+#redirecting to login
 alreadyaccountLabel = Label(frame,text='Already Have An Account?',font=('Open Sans',9,'bold'),fg='firebrick1',bg='white')
 alreadyaccountLabel.grid(row=11,column=0,sticky='w',padx=25,pady=5)
 
 loginButton = Button(frame, text='LogIN!', font=('Open Sans', 9, 'bold underline'), fg='blue', bg='white', cursor='hand2', bd=0, activeforeground='blue', activebackground='white',command=open_login_page)
-loginButton.place(x=190, y=385)
-
-
+loginButton.grid(row=12,column=0,pady=5)
 
 signup_window.mainloop()
