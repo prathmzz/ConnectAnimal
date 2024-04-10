@@ -1,10 +1,12 @@
+# main.py
+
 from tkinter import *
 import webbrowser
 import subprocess
 import mysql.connector
 from PIL import Image, ImageTk
 from commmon_components import logo_name
-from sidebar import *
+from sidebar import create_sidebar
 
 
 class Campaign_Details:
@@ -57,7 +59,11 @@ def fetch_campaigns_from_db():
         connection = mysql.connector.connect(host='localhost',
                                              database='userdata',
                                              user='root',
+<<<<<<< Updated upstream
                                              password='v2wcoder@mysql#123')  # Update with your MySQL password
+=======
+                                             password='Vedant@0110')  # Update with your MySQL password
+>>>>>>> Stashed changes
         cursor = connection.cursor()
 
         # SQL query to select all campaigns from the database
@@ -82,12 +88,12 @@ def fetch_campaigns_from_db():
             connection.close()
 
 
-def open_Volunteer_page():
+def open_Volunteer_page(root):
     root.destroy()
     subprocess.run(["python", "Volunteer_page.py"])
 
 
-def open_donation_page():
+def open_donation_page(root):
     root.destroy()
     subprocess.run(["python", "donation_page.py"])
 
@@ -100,7 +106,7 @@ logo_name(root)
 root.geometry("800x600+100+100")
 
 # Create the top bar
-topbar, sidebar, buttons = create_sidebar(root, open_Volunteer_page, open_donation_page, open_rescue_section, open_adoption)
+topbar, sidebar, buttons = create_sidebar(root, lambda: open_Volunteer_page(root), lambda: open_donation_page(root), None, None)
 
 # Create a frame for the content
 content_frame = Frame(root, bg="white", width=600, height=550)
@@ -126,7 +132,7 @@ canvas.create_window((0, 0), window=frame, anchor='nw')
 
 button_frame = Frame(content_frame, bg="white")
 button_frame.pack(side=TOP, fill=X)
-add_campaign_button = Button(button_frame, text="Back to volunteer page", fg="white", bg="#eb4163", bd=0, padx=20, pady=10, command=open_Volunteer_page)
+add_campaign_button = Button(button_frame, text="Back to volunteer page", fg="white", bg="#eb4163", bd=0, padx=20, pady=10, command=lambda: open_Volunteer_page(root))
 add_campaign_button.pack(side=RIGHT, fill=X, padx=(50, 250), pady=(25, 25))
 
 # Display each campaign from the list

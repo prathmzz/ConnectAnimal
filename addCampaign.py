@@ -13,11 +13,11 @@ def save_campaign_to_db(name, location, contact_number, google_form_link):
         connection = mysql.connector.connect(host='localhost',
                                              database='userdata',
                                              user='root',
-                                             password='v2wcoder@mysql#123')  # Update with your MySQL password
+                                             password='Vedant@0110')  # Update with your MySQL password
         cursor = connection.cursor()
 
         # SQL query to insert campaign details into the database
-        sql_query = "INSERT INTO campaigns (name, location, contact_number, google_form_link) VALUES (%s, %s, %s, %s)"
+        sql_query = "INSERT INTO campaigns (name, location, contact_number, description) VALUES (%s, %s, %s, %s)"
         campaign_data = (name, location, contact_number, google_form_link)
         cursor.execute(sql_query, campaign_data)
         connection.commit()

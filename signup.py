@@ -26,7 +26,7 @@ def connect_database():
         messagebox.showerror('Error', 'Username should start with a letter and can contain letters and numbers only')
     else:
         try:
-            con = pymysql.connect(host='localhost', user='root', password='v2wcoder@mysql#123')
+            con = pymysql.connect(host='localhost', user='root', password='Vedant@0110')
             mycursor = con.cursor()
 
         except pymysql.Error as e:
