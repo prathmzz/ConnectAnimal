@@ -3,11 +3,7 @@ from tkinter import messagebox  # Import messagebox for popup
 import webview
 import geocoder
 from PIL import Image, ImageTk
-<<<<<<< Updated upstream
-from sidebar import create_sidebar
-=======
 from sidebar import *
->>>>>>> Stashed changes
 from commmon_components import logo_name
 
 def open_google_maps():
@@ -23,14 +19,7 @@ def open_google_maps():
     webview.start()
 
 def fetch_user_location():
-<<<<<<< Updated upstream
-    # Get user's station
-    location = geocoder.ip('me')
-    station = location.raw.get('station', 'Unknown')  # Get the station information or set to 'Unknown' if not available
-    
-    # Update location label
-    location_label.config(text=f"Your location: {station}")
-=======
+
     # Popup asking for user's location
     result = messagebox.askyesno("Location", "Allow this app to access your location?")
     if result:
@@ -39,7 +28,7 @@ def fetch_user_location():
         location_label.config(text=f"Your location: {user_city}")
     else:
         location_label.config(text="Your location: Unknown")
->>>>>>> Stashed changes
+
 
 root = Tk()
 logo_name(root, "Rescue")

@@ -59,11 +59,9 @@ def fetch_campaigns_from_db():
         connection = mysql.connector.connect(host='localhost',
                                              database='userdata',
                                              user='root',
-<<<<<<< Updated upstream
-                                             password='v2wcoder@mysql#123')  # Update with your MySQL password
-=======
+
                                              password='Vedant@0110')  # Update with your MySQL password
->>>>>>> Stashed changes
+
         cursor = connection.cursor()
 
         # SQL query to select all campaigns from the database
