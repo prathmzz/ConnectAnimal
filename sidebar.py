@@ -49,10 +49,10 @@ def create_sidebar(root, open_Volunteer_page, open_donation_page, open_rescue_se
     sidebar.pack(side=LEFT, fill=Y)
 
     menu_items = [
-        ("Volunteer", "volunteer.png", lambda: open_Volunteer_page(root)),
-        ("Donation", "donation.png", lambda: open_donation_page(root)),
-        ("Rescue", "animal-rescue.png", lambda: open_rescue_section(root)),
-        ("Adoption", "adoption.png", lambda: open_adoption(root)),
+        ("Volunteer", "volunteer.png", lambda root=root : open_Volunteer_page(root)),
+        ("Donation", "donation.png", lambda root=root : open_donation_page(root)),
+        ("Rescue", "animal-rescue.png", lambda root=root : open_rescue_section(root)),
+        ("Adoption", "adoption.png", lambda root=root : open_adoption(root)),
     ]
 
     buttons = []

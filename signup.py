@@ -5,6 +5,7 @@ import re
 import pymysql
 from commmon_components import logo_name
 
+
 def clear():
     emailEntry.delete(0, END)
     usernameEntry.delete(0, END)
